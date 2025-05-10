@@ -26,9 +26,30 @@ interface GetPostsResponse {
 
 const getAllPosts = async (): Promise<GetPostsResponse> => {
   const response = await axios.get<GetPostsResponse>(
-    'https://dummyjson.com/docs/posts'
+    'https://dummyjson.com/posts'
   );
   return response.data;
 };
 
 getAllPosts().then(data => console.log(data.posts[0].reactions.dislikes));
+
+const getPostById = async (postId: number): Promise<Post> => {
+  const response = await axios.get<Post>(
+    'https://dummyjson.com/posts/${postId}'
+  );
+  return response.data;
+};
+
+interface NewPostData {
+  title: string;
+  body: string;
+  tags: string[];
+}
+
+const createPost = async (newPost: NewPostData): Promise<Post> => {
+  const response = await axios.post<Post>(
+    'https://dummyjson.com/posts/add',
+    newPost
+  );
+  return response.data;
+};
